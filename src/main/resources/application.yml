@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: Internet_Shop_Backend
+  profiles:
+    active: postgres
