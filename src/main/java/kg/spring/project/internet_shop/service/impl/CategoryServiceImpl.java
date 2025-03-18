@@ -6,7 +6,7 @@ import kg.spring.project.internet_shop.entity.Category;
 import kg.spring.project.internet_shop.entity.Product;
 import kg.spring.project.internet_shop.repository.CategoryRepository;
 import kg.spring.project.internet_shop.service.CategoryService;
-import kg.spring.project.mapper.CategoryMapper;
+import kg.spring.project.internet_shop.mapper.CategoryMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +26,10 @@ public class CategoryServiceImpl implements CategoryService {
 
   public CategoryDTO getCategoryById(Long id) {
     return categoryMapper.toCategoryDTO(categoryRepository.findById(id).orElse(null));
+  }
+
+  public CategoryDTO getCategoryByName(String name) {
+    return categoryMapper.toCategoryDTO(categoryRepository.findByName(name).orElse(null));
   }
 
   public CategoryDTO createCategory(CategoryDTO categoryDTO) {

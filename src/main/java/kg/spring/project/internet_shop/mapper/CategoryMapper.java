@@ -1,11 +1,9 @@
-package kg.spring.project.mapper;
+package kg.spring.project.internet_shop.mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import kg.spring.project.dto.CategoryDTO;
-import kg.spring.project.dto.ProductDTO;
 import kg.spring.project.internet_shop.entity.Category;
-import kg.spring.project.internet_shop.entity.Product;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -53,31 +51,5 @@ public class CategoryMapper {
         .collect(Collectors.toList());
   }
 
-  private ProductDTO toProductDTO(Product product) {
-    if (product == null) {
-      return null;
-    }
 
-    ProductDTO dto = new ProductDTO();
-    dto.setId(product.getId());
-    dto.setName(product.getName());
-    dto.setPrice(product.getPrice());
-    dto.setDescription(product.getDescription());
-
-    return dto;
-  }
-
-  private Product toProduct(ProductDTO productDTO) {
-    if (productDTO == null) {
-      return null;
-    }
-
-    Product product = new Product();
-    product.setId(productDTO.getId());
-    product.setName(productDTO.getName());
-    product.setPrice(productDTO.getPrice());
-    product.setDescription(productDTO.getDescription());
-
-    return product;
-  }
 }
