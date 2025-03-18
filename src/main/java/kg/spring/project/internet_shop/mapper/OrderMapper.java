@@ -2,8 +2,8 @@ package kg.spring.project.internet_shop.mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kg.spring.project.dto.OrderDTO;
-import kg.spring.project.dto.OrderItemDTO;
+import kg.spring.project.internet_shop.dto.OrderDTO;
+import kg.spring.project.internet_shop.dto.OrderItemDTO;
 import kg.spring.project.internet_shop.entity.Order;
 import org.springframework.stereotype.Component;
 

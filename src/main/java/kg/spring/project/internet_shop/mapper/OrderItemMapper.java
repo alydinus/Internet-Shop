@@ -1,6 +1,6 @@
 package kg.spring.project.internet_shop.mapper;
 
-import kg.spring.project.dto.OrderItemDTO;
+import kg.spring.project.internet_shop.dto.OrderItemDTO;
 import kg.spring.project.internet_shop.entity.OrderItem;
 import org.springframework.stereotype.Component;
 

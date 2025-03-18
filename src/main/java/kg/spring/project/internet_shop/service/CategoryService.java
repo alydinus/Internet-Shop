@@ -1,7 +1,7 @@
 package kg.spring.project.internet_shop.service;
 
 import java.util.List;
-import kg.spring.project.dto.CategoryDTO;
+import kg.spring.project.internet_shop.dto.CategoryDTO;
 
 public interface CategoryService {
 

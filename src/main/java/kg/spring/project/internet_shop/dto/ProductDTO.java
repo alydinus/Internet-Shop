@@ -1,4 +1,4 @@
-package kg.spring.project.dto;
+package kg.spring.project.internet_shop.dto;
 
 public class ProductDTO {
 

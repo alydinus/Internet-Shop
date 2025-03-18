@@ -1,8 +1,8 @@
-package kg.spring.project.dto;
+package kg.spring.project.internet_shop.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import kg.spring.project.enums.OrderStatus;
+import kg.spring.project.internet_shop.enums.OrderStatus;
 
 public class OrderDTO {
 

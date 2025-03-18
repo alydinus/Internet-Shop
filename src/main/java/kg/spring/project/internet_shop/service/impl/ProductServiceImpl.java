@@ -2,11 +2,10 @@ package kg.spring.project.internet_shop.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kg.spring.project.dto.ProductDTO;
+import kg.spring.project.internet_shop.dto.ProductDTO;
 import kg.spring.project.internet_shop.entity.Category;
 import kg.spring.project.internet_shop.entity.Product;
 import kg.spring.project.internet_shop.mapper.CategoryMapper;
-import kg.spring.project.internet_shop.repository.CategoryRepository;
 import kg.spring.project.internet_shop.repository.ProductRepository;
 import kg.spring.project.internet_shop.service.CategoryService;
 import kg.spring.project.internet_shop.service.ProductService;

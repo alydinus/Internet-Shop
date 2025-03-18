@@ -1,9 +1,9 @@
 package kg.spring.project.internet_shop.service;
 
 import java.util.List;
-import kg.spring.project.dto.OrderDTO;
-import kg.spring.project.dto.OrderItemDTO;
-import kg.spring.project.enums.OrderStatus;
+import kg.spring.project.internet_shop.dto.OrderDTO;
+import kg.spring.project.internet_shop.dto.OrderItemDTO;
+import kg.spring.project.internet_shop.enums.OrderStatus;
 
 public interface OrderService {
 

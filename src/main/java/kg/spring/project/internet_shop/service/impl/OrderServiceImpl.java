@@ -3,9 +3,9 @@ package kg.spring.project.internet_shop.service.impl;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import kg.spring.project.dto.OrderDTO;
-import kg.spring.project.dto.OrderItemDTO;
-import kg.spring.project.enums.OrderStatus;
+import kg.spring.project.internet_shop.dto.OrderDTO;
+import kg.spring.project.internet_shop.dto.OrderItemDTO;
+import kg.spring.project.internet_shop.enums.OrderStatus;
 import kg.spring.project.internet_shop.entity.Order;
 import kg.spring.project.internet_shop.entity.OrderItem;
 import kg.spring.project.internet_shop.entity.Product;
@@ -19,25 +19,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-  private final UserRepository userRepository;
   private final OrderRepository orderRepository;
   private final ProductRepository productRepository;
   private final OrderMapper orderMapper;
 
-  public OrderServiceImpl(UserRepository userRepository,
-      OrderRepository orderRepository, ProductRepository productRepository, OrderMapper orderMapper) {
-    this.userRepository = userRepository;
+  public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository, OrderMapper orderMapper) {
     this.orderRepository = orderRepository;
     this.productRepository = productRepository;
     this.orderMapper = orderMapper;
   }
 
   public OrderDTO createOrder(Long userId, List<OrderItemDTO> items) {
-    User user = userRepository.findById(userId)
-        .orElseThrow(() -> new RuntimeException("User not found"));
 
     Order order = new Order();
-    order.setUser(user);
     order.setOrderDate(LocalDateTime.now());
     order.setStatus(OrderStatus.NEW);
 

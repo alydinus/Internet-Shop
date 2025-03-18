@@ -1,7 +1,7 @@
 package kg.spring.project.internet_shop.controller.api;
 
 import java.util.List;
-import kg.spring.project.dto.ProductDTO;
+import kg.spring.project.internet_shop.dto.ProductDTO;
 import kg.spring.project.internet_shop.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

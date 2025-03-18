@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
-import kg.spring.project.enums.Role;
+import kg.spring.project.internet_shop.enums.Role;
 
 @Entity
 @Table(name = "users")

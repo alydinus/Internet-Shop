@@ -14,7 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
-import kg.spring.project.enums.OrderStatus;
+import kg.spring.project.internet_shop.enums.OrderStatus;
 
 @Entity
 @Table(name = "orders")

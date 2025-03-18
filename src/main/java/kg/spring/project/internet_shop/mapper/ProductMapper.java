@@ -2,7 +2,7 @@ package kg.spring.project.internet_shop.mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kg.spring.project.dto.ProductDTO;
+import kg.spring.project.internet_shop.dto.ProductDTO;
 import kg.spring.project.internet_shop.entity.Product;
 import kg.spring.project.internet_shop.service.CategoryService;
 import org.springframework.stereotype.Component;
