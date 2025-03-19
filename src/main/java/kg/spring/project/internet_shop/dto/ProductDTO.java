@@ -9,9 +9,8 @@ public class ProductDTO {
   private String categoryName;
   private int stockQuantity;
 
-  public ProductDTO(Long id, String name, String description, Double price,
+  public ProductDTO(String name, String description, Double price,
       String categoryName, int stockQuantity) {
-    this.id = id;
     this.name = name;
     this.description = description;
     this.price = price;

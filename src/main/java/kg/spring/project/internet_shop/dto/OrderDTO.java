@@ -7,7 +7,6 @@ import kg.spring.project.internet_shop.enums.OrderStatus;
 public class OrderDTO {
 
   private Long id;
-  private Long userId;
   private List<OrderItemDTO> items;
   private LocalDateTime orderDate;
   private OrderStatus status;
@@ -15,10 +14,9 @@ public class OrderDTO {
   public OrderDTO() {
   }
 
-  public OrderDTO(Long id, Long userId, List<OrderItemDTO> items, LocalDateTime orderDate,
+  public OrderDTO(Long id, List<OrderItemDTO> items, LocalDateTime orderDate,
       OrderStatus status) {
     this.id = id;
-    this.userId = userId;
     this.items = items;
     this.orderDate = orderDate;
     this.status = status;
@@ -30,14 +28,6 @@ public class OrderDTO {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Long getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Long userId) {
-    this.userId = userId;
   }
 
   public List<OrderItemDTO> getItems() {

@@ -7,9 +7,11 @@ import kg.spring.project.internet_shop.enums.OrderStatus;
 
 public interface OrderService {
 
-  OrderDTO createOrder(Long userId, List<OrderItemDTO> items);
+  OrderDTO createOrder(List<OrderItemDTO> items);
 
   OrderDTO getOrderById(Long id);
+
+  List<OrderDTO> getAllOrders();
 
   void updateOrderStatus(Long id, OrderStatus status);
 

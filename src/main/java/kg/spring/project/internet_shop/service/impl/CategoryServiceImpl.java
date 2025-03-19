@@ -4,10 +4,12 @@ import java.util.List;
 import kg.spring.project.internet_shop.dto.CategoryDTO;
 import kg.spring.project.internet_shop.entity.Category;
 import kg.spring.project.internet_shop.entity.Product;
+import kg.spring.project.internet_shop.mapper.CategoryMapper;
 import kg.spring.project.internet_shop.repository.CategoryRepository;
 import kg.spring.project.internet_shop.service.CategoryService;
-import kg.spring.project.internet_shop.mapper.CategoryMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -21,15 +23,25 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   public List<CategoryDTO> getAllCategories() {
+    List<Category> categories = categoryRepository.findAll();
+    if (categories.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Categories not found");
+    }
     return categoryMapper.toDtoList(categoryRepository.findAll());
   }
 
   public CategoryDTO getCategoryById(Long id) {
-    return categoryMapper.toCategoryDTO(categoryRepository.findById(id).orElse(null));
+    Category category = categoryRepository.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+            "Category with id " + id + " not found"));
+
+    return categoryMapper.toCategoryDTO(category);
   }
 
   public CategoryDTO getCategoryByName(String name) {
-    return categoryMapper.toCategoryDTO(categoryRepository.findByName(name).orElse(null));
+    return categoryMapper.toCategoryDTO(categoryRepository.findByName(name)
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND, "Category with name " + name + " not found")));
   }
 
   public CategoryDTO createCategory(CategoryDTO categoryDTO) {
@@ -39,7 +51,8 @@ public class CategoryServiceImpl implements CategoryService {
 
   public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
     Category category = categoryRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Category not found"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+            "Category with id " + id + " not found"));
     category.setName(categoryDTO.getName());
     List<Product> products = category.getProducts();
     category.setProducts(products);

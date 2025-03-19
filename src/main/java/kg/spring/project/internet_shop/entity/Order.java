@@ -8,8 +8,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
@@ -24,10 +22,6 @@ public class Order {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
-
   @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
   private List<OrderItem> orderItems;
 
@@ -37,10 +31,9 @@ public class Order {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  public Order(Long id, User user, List<OrderItem> orderItems, LocalDateTime orderDate,
+  public Order(Long id, List<OrderItem> orderItems, LocalDateTime orderDate,
       OrderStatus status) {
     this.id = id;
-    this.user = user;
     this.orderItems = orderItems;
     this.orderDate = orderDate;
     this.status = status;
@@ -55,14 +48,6 @@ public class Order {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
   }
 
   public List<OrderItem> getOrderItems() {
