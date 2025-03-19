@@ -26,6 +26,10 @@ public class CategoryApiController implements CategoryApi {
       return ResponseEntity.ok(categoryService.getCategoryById(id));
   }
 
+  public ResponseEntity<CategoryDTO> getCategoryByName(String name) {
+    return ResponseEntity.ok(categoryService.getCategoryByName(name));
+  }
+
   public ResponseEntity<CategoryDTO> createCategory(CategoryDTO categoryDTO) {
     return ResponseEntity.ok(categoryService.createCategory(categoryDTO));
   }

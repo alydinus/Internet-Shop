@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
     if (categories.isEmpty()) {
       throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Categories not found");
     }
-    return categoryMapper.toDtoList(categoryRepository.findAll());
+    return categoryMapper.toDtoList(categories);
   }
 
   public CategoryDTO getCategoryById(Long id) {

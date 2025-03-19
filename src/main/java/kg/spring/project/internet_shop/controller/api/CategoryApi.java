@@ -25,6 +25,12 @@ public interface CategoryApi {
   @GetMapping("/{id}")
   ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id);
 
+  @Operation(summary = "Получить категорию по названию", description = "Возвращает категорию по её названию")
+  @ApiResponse(responseCode = "200", description = "Категория найдена", content = @Content(schema = @Schema(implementation = CategoryDTO.class)))
+  @ApiResponse(responseCode = "404", description = "Категория не найдена")
+  @GetMapping("/name/{name}")
+  ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable String name);
+
   @Operation(summary = "Создать новую категорию", description = "Добавляет новую категорию")
   @ApiResponse(responseCode = "201", description = "Категория создана", content = @Content(schema = @Schema(implementation = CategoryDTO.class)))
   @PostMapping
