@@ -10,7 +10,9 @@ import kg.spring.project.internet_shop.repository.ProductRepository;
 import kg.spring.project.internet_shop.service.CategoryService;
 import kg.spring.project.internet_shop.service.ProductService;
 import kg.spring.project.internet_shop.mapper.ProductMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,7 +39,8 @@ public class ProductServiceImpl implements ProductService {
   }
 
   public ProductDTO getProductById(Long id) {
-    return productMapper.toProductDTO(productRepository.findById(id).orElse(null));
+    return productMapper.toProductDTO(productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
+        HttpStatus.NOT_FOUND, "Product with id " + id + " not found")));
   }
 
   public ProductDTO createProduct(ProductDTO productDTO) {
@@ -53,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
   public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
 
     Product product = productRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Product not found"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id " + id + " not found"));
 
     product.setName(productDTO.getName());
     product.setPrice(productDTO.getPrice());
@@ -67,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
 
   public ProductDTO updateProductPrice(Long id, ProductDTO dto) {
     Product product = productRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Product not found"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id " + id + " not found"));
 
     product.setPrice(dto.getPrice());
 

@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     List<OrderItem> orderItems = new ArrayList<>();
     for (OrderItemDTO dto : items) {
       Product product = productRepository.findById(dto.getProductId())
-          .orElseThrow(() -> new RuntimeException("Product not found"));
+          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id " + dto.getProductId() + " not found"));
 
       OrderItem orderItem = new OrderItem();
       orderItem.setOrder(order);
@@ -58,13 +58,13 @@ public class OrderServiceImpl implements OrderService {
 
   public OrderDTO getOrderById(Long id) {
     Order order = orderRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order with id " + id + " not found"));
     return orderMapper.toOrderDTO(order);
   }
 
   public void updateOrderStatus(Long orderId, OrderStatus status) {
     Order order = orderRepository.findById(orderId)
-        .orElseThrow(() -> new RuntimeException("Order not found"));
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
     order.setStatus(status);
     orderRepository.save(order);
   }
