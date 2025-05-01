@@ -13,9 +13,15 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 import kg.spring.project.internet_shop.enums.OrderStatus;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "orders")
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Order {
 
   @Id
@@ -31,47 +37,5 @@ public class Order {
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
 
-  public Order(Long id, List<OrderItem> orderItems, LocalDateTime orderDate,
-      OrderStatus status) {
-    this.id = id;
-    this.orderItems = orderItems;
-    this.orderDate = orderDate;
-    this.status = status;
-  }
-
-  public Order() {
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public List<OrderItem> getOrderItems() {
-    return orderItems;
-  }
-
-  public void setOrderItems(List<OrderItem> orderItems) {
-    this.orderItems = orderItems;
-  }
-
-  public LocalDateTime getOrderDate() {
-    return orderDate;
-  }
-
-  public void setOrderDate(LocalDateTime orderDate) {
-    this.orderDate = orderDate;
-  }
-
-  public OrderStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(OrderStatus status) {
-    this.status = status;
-  }
 }
 
