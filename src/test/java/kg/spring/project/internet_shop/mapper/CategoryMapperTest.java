@@ -19,7 +19,6 @@ class CategoryMapperTest {
 
   @BeforeEach
   void setUp() {
-    categoryMapper = new CategoryMapper();
 
     category = new Category();
     category.setId(1L);

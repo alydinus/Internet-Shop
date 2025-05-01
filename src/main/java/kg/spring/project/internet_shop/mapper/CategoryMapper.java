@@ -1,55 +1,19 @@
 package kg.spring.project.internet_shop.mapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import kg.spring.project.internet_shop.dto.CategoryDTO;
 import kg.spring.project.internet_shop.entity.Category;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class CategoryMapper {
+@Mapper(componentModel = "spring")
+public interface CategoryMapper {
 
-  public CategoryDTO toCategoryDTO(Category category) {
-    if (category == null) {
-      return null;
-    }
+  CategoryDTO toCategoryDTO(Category category);
 
-    CategoryDTO dto = new CategoryDTO();
-    dto.setId(category.getId());
-    dto.setName(category.getName());
+  Category toCategory(CategoryDTO categoryDTO);
 
-    return dto;
-  }
+  List<CategoryDTO> toDtoList(List<Category> categories);
 
-  public Category toCategory(CategoryDTO categoryDTO) {
-    if (categoryDTO == null) {
-      return null;
-    }
-
-    Category category = new Category();
-    category.setId(categoryDTO.getId());
-    category.setName(categoryDTO.getName());
-
-    return category;
-  }
-
-  public List<CategoryDTO> toDtoList(List<Category> categories) {
-    if (categories == null) {
-      return null;
-    }
-    return categories.stream()
-        .map(this::toCategoryDTO)
-        .collect(Collectors.toList());
-  }
-
-  public List<Category> toEntityList(List<CategoryDTO> categoryDTOs) {
-    if (categoryDTOs == null) {
-      return null;
-    }
-    return categoryDTOs.stream()
-        .map(this::toCategory)
-        .collect(Collectors.toList());
-  }
-
+  List<Category> toEntityList(List<CategoryDTO> categoryDTOs);
 
 }
