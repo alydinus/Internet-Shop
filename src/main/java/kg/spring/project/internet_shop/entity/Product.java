@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import kg.spring.project.internet_shop.enums.Category;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,7 @@ public class Product {
   @Column(nullable = false)
   private int stockQuantity;
 
-  @ManyToOne
-  @JoinColumn(name = "category_id")
+  @Column (nullable = false)
   private Category category;
 
 }
