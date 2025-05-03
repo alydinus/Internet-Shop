@@ -21,20 +21,20 @@ public interface CartApi {
   @PostMapping
   @Operation(summary = "Добавить товар в корзину", description = "Добавляет товар в корзину пользователя")
   @ApiResponse(responseCode = "200", description = "Товар добавлен в корзину")
-  ResponseEntity<CartDTO> addToCart(Long productId, int quantity);
+  ResponseEntity<CartDTO> addToCart(Long cartId, Long productId, int quantity);
 
   @PutMapping
   @Operation(summary = "Обновить количество товара в корзине", description = "Обновляет количество товара в корзине пользователя")
   @ApiResponse(responseCode = "200", description = "Количество товара обновлено")
-  ResponseEntity<CartDTO> updateCart(Long productId, int quantity);
+  ResponseEntity<CartDTO> updateCartItemQuantity(Long cartId, Long productId, int quantity);
 
   @Operation(summary = "Удалить товар из корзины", description = "Удаляет товар из корзины пользователя")
   @ApiResponse(responseCode = "200", description = "Товар удален из корзины")
   @PostMapping("/remove")
-  ResponseEntity<CartDTO> removeFromCart(Long productId);
+  ResponseEntity<CartDTO> removeFromCart(Long cartId, Long productId);
 
   @Operation(summary = "Очистить корзину", description = "Удаляет все товары из корзины пользователя")
   @ApiResponse(responseCode = "200", description = "Корзина очищена")
   @PostMapping("/clear")
-  ResponseEntity<String> clearCart();
+  ResponseEntity<String> clearCart(Long cartId);
 }

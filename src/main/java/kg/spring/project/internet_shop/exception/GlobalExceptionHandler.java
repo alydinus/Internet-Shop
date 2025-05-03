@@ -1,5 +1,6 @@
 package kg.spring.project.internet_shop.exception;
 
+import kg.spring.project.internet_shop.exception.exceptions.CartNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler
-  public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  public ResponseEntity<String> handleCartNotFoundException(CartNotFoundException e) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
   }
 }

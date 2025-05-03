@@ -2,18 +2,19 @@ package kg.spring.project.internet_shop.service;
 
 import java.util.List;
 import kg.spring.project.internet_shop.dto.ProductDTO;
+import kg.spring.project.internet_shop.entity.Product;
 
 public interface ProductService {
 
-  List<ProductDTO> getAllProducts();
+  List<Product> getAllProducts();
 
-  ProductDTO getProductById(Long id);
+  Product getProductById(Long id);
 
-  ProductDTO createProduct(ProductDTO productDTO);
+  Product createProduct(ProductDTO productDTO);
 
-  ProductDTO updateProduct(Long id, ProductDTO productDTO);
+  Product updateProduct(Long id, ProductDTO productDTO);
 
-  ProductDTO updateProductPrice(Long id, ProductDTO dto);
+  Product updateProductPrice(Long id, ProductDTO dto);
 
   void deleteProduct(Long id);
 }

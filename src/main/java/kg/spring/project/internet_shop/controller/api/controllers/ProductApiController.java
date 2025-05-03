@@ -5,7 +5,6 @@ import kg.spring.project.internet_shop.controller.api.ProductApi;
 import kg.spring.project.internet_shop.dto.ProductDTO;
 import kg.spring.project.internet_shop.service.ProductService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +34,7 @@ public class ProductApiController implements ProductApi {
     return ResponseEntity.ok(productService.updateProduct(id, dto));
   }
 
-  public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteProduct(Long id) {
     productService.deleteProduct(id);
     return ResponseEntity.noContent().build();
   }

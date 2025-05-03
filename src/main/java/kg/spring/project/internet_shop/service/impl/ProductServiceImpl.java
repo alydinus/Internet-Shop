@@ -10,27 +10,18 @@ import kg.spring.project.internet_shop.repository.ProductRepository;
 import kg.spring.project.internet_shop.service.CategoryService;
 import kg.spring.project.internet_shop.service.ProductService;
 import kg.spring.project.internet_shop.mapper.ProductMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
   private final ProductMapper productMapper;
-  private final CategoryMapper categoryMapper;
-  private final CategoryService categoryService;
 
-
-  public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper,
-      CategoryMapper categoryMapper,
-      CategoryService categoryService) {
-    this.productRepository = productRepository;
-    this.productMapper = productMapper;
-    this.categoryMapper = categoryMapper;
-    this.categoryService = categoryService;
-  }
 
   public List<ProductDTO> getAllProducts() {
     return productRepository.findAll().stream()
@@ -45,9 +36,6 @@ public class ProductServiceImpl implements ProductService {
 
   public ProductDTO createProduct(ProductDTO productDTO) {
     Product product = productMapper.toProduct(productDTO);
-    Category category = categoryMapper.toCategory(
-        categoryService.getCategoryByName(productDTO.getCategoryName()));
-    product.setCategory(category);
     productRepository.save(product);
     return productMapper.toProductDTO(product);
 
@@ -60,8 +48,6 @@ public class ProductServiceImpl implements ProductService {
 
     product.setName(productDTO.getName());
     product.setPrice(productDTO.getPrice());
-    product.setCategory(
-        categoryMapper.toCategory(categoryService.getCategoryByName(productDTO.getCategoryName())));
     product.setDescription(productDTO.getDescription());
     product.setStockQuantity(productDTO.getStockQuantity());
 

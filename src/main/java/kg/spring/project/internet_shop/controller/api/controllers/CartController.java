@@ -2,6 +2,7 @@ package kg.spring.project.internet_shop.controller.api.controllers;
 
 import kg.spring.project.internet_shop.controller.api.CartApi;
 import kg.spring.project.internet_shop.dto.CartDTO;
+import kg.spring.project.internet_shop.mapper.CartMapper;
 import kg.spring.project.internet_shop.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,24 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class CartController implements CartApi {
 
   private final CartService cartService;
+  private final CartMapper cartMapper;
 
   public ResponseEntity<CartDTO> getCart(Long id) {
-    return new ResponseEntity<>(cartService.getCart(id), HttpStatus.OK);
+    return new ResponseEntity<>(cartMapper.toDTO(cartService.getCart(id)), HttpStatus.OK);
   }
 
-  public ResponseEntity<CartDTO> addToCart(Long productId, int quantity) {
-    return new ResponseEntity<>(cartService.addToCart(productId, quantity), HttpStatus.OK);
+  public ResponseEntity<CartDTO> addToCart(Long cartId, Long productId, int quantity) {
+    return new ResponseEntity<>(cartMapper.toDTO(cartService.addToCart(cartId, productId, quantity)), HttpStatus.OK);
   }
 
-  public ResponseEntity<CartDTO> updateCart(Long productId, int quantity) {
-    return new ResponseEntity<>(cartService.updateCart(productId, quantity), HttpStatus.OK);
+  public ResponseEntity<CartDTO> updateCartItemQuantity(Long cartId, Long productId, int quantity) {
+    return new ResponseEntity<>(cartMapper.toDTO(cartService.updateCart(cartId, productId, quantity)), HttpStatus.OK);
   }
 
-  public ResponseEntity<CartDTO> removeFromCart(Long productId) {
-    return new ResponseEntity<>(cartService.removeFromCart(productId), HttpStatus.OK);
+  public ResponseEntity<CartDTO> removeFromCart(Long cartId, Long productId) {
+    return new ResponseEntity<>(cartMapper.toDTO(cartService.removeFromCart(cartId, productId)), HttpStatus.OK);
   }
 
-  public ResponseEntity<String> clearCart() {
-    return new ResponseEntity<>(cartService.clearCart(), HttpStatus.OK);
+  public ResponseEntity<String> clearCart(Long cartId) {
+    return new ResponseEntity<>(cartService.clearCart(cartId), HttpStatus.OK);
   }
 }

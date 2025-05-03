@@ -1,17 +1,17 @@
 package kg.spring.project.internet_shop.service;
 
-import kg.spring.project.internet_shop.dto.CartDTO;
+import kg.spring.project.internet_shop.entity.Cart;
 
 public interface CartService {
 
-  CartDTO getCart(Long id);
+  Cart getCart(Long id);
 
-  CartDTO addToCart(Long productId, int quantity);
+  Cart addToCart(Long cartId, Long productId, int quantity);
 
-  CartDTO updateCart(Long productId, int quantity);
+  Cart updateCart(Long cartId, Long productId, int quantity);
 
-  CartDTO removeFromCart(Long productId);
+  Cart removeFromCart(Long cartId, Long productId);
 
-  String clearCart();
+  String clearCart(Long cartId);
 
 }
