@@ -1,0 +1,5 @@
+package kg.spring.project.internet_shop.dto;
+
+public class UserDTO {
+
+}
