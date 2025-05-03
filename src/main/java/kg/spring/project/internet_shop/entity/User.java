@@ -11,16 +11,14 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
+import kg.spring.project.internet_shop.enums.Role;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @Data
-@RequiredArgsConstructor
-@NoArgsConstructor
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -43,10 +41,13 @@ public class User {
   @Column(name = "registration_date")
   private LocalDateTime registrationDate;
 
-  @OneToOne (mappedBy = "user", cascade = CascadeType.ALL)
+  @Column(name = "role")
+  private Role role;
+
+  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Cart cart;
 
-  @OneToMany (mappedBy = "user")
+  @OneToMany(mappedBy = "user")
   private List<Order> orders;
 
 }

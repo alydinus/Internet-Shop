@@ -1,81 +1,76 @@
 package kg.spring.project.internet_shop.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import kg.spring.project.internet_shop.dto.OrderDTO;
 import kg.spring.project.internet_shop.dto.OrderItemDTO;
 import kg.spring.project.internet_shop.entity.Order;
 import kg.spring.project.internet_shop.entity.OrderItem;
-import kg.spring.project.internet_shop.entity.Product;
+import kg.spring.project.internet_shop.entity.User;
 import kg.spring.project.internet_shop.enums.OrderStatus;
-import kg.spring.project.internet_shop.mapper.OrderMapper;
+import kg.spring.project.internet_shop.exception.exceptions.OrderNotFoundException;
+import kg.spring.project.internet_shop.exception.exceptions.UserNotFoundException;
+import kg.spring.project.internet_shop.mapper.OrderItemMapper;
 import kg.spring.project.internet_shop.repository.OrderRepository;
-import kg.spring.project.internet_shop.repository.ProductRepository;
 import kg.spring.project.internet_shop.service.OrderService;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
   private final OrderRepository orderRepository;
-  private final ProductRepository productRepository;
-  private final OrderMapper orderMapper;
+  private final UserServiceImpl userServiceImpl;
+  private final OrderItemMapper orderItemMapper;
 
-  public OrderServiceImpl(OrderRepository orderRepository, ProductRepository productRepository,
-      OrderMapper orderMapper) {
-    this.orderRepository = orderRepository;
-    this.productRepository = productRepository;
-    this.orderMapper = orderMapper;
-  }
-
-  public OrderDTO createOrder(List<OrderItemDTO> items) {
-
+  public Order createOrder(Long userId, List<OrderItemDTO> orderItems) {
     Order order = new Order();
-    order.setOrderDate(LocalDateTime.now());
-    order.setStatus(OrderStatus.NEW);
-
-    List<OrderItem> orderItems = new ArrayList<>();
-    for (OrderItemDTO dto : items) {
-      Product product = productRepository.findById(dto.getProductId())
-          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id " + dto.getProductId() + " not found"));
-
-      OrderItem orderItem = new OrderItem();
-      orderItem.setOrder(order);
-      orderItem.setProduct(product);
-      orderItem.setQuantity(dto.getQuantity());
-      orderItem.setPrice(product.getPrice());
-
-      orderItems.add(orderItem);
+    try {
+      List<OrderItem> orderItemList = orderItems.stream()
+          .map(orderItemMapper::toEntity)
+          .toList();
+      User user = userServiceImpl.getUserById(userId);
+      order.setUser(user);
+      order.setOrderItems(orderItemList);
+      order.setStatus(OrderStatus.NEW);
+      order.setOrderDate(LocalDateTime.now());
+      return orderRepository.save(order);
+    } catch (UserNotFoundException | NullPointerException e) {
+      throw new UserNotFoundException("User not found with id: " + userId);
+    } catch (Exception e) {
+      throw new RuntimeException("Error creating order: " + e.getMessage());
     }
-    order.setOrderItems(orderItems);
-    orderRepository.save(order);
-
-    return orderMapper.toOrderDTO(order);
   }
 
-  public OrderDTO getOrderById(Long id) {
-    Order order = orderRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order with id " + id + " not found"));
-    return orderMapper.toOrderDTO(order);
+  public Order getOrderById(Long id) {
+    return orderRepository.findById(id)
+        .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + id));
+  }
+
+  public List<Order> getAllOrders() {
+    return orderRepository.findAll();
+  }
+
+  public List<Order> getAllOrdersByUserId(Long id) {
+    List<Order> orders = orderRepository.findAllByUserId(id);
+    if (orders.isEmpty()) {
+      throw new OrderNotFoundException("No orders found for user with id: " + id);
+    }
+
+    return orders;
   }
 
   public void updateOrderStatus(Long orderId, OrderStatus status) {
-    Order order = orderRepository.findById(orderId)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+    Order order = getOrderById(orderId);
     order.setStatus(status);
     orderRepository.save(order);
   }
 
   public void deleteOrder(Long id) {
-    orderRepository.deleteById(id);
-  }
-
-  public List<OrderDTO> getAllOrders() {
-    return orderRepository.findAll().stream()
-        .map(orderMapper::toOrderDTO)
-        .toList();
+    if (orderRepository.existsById(id)) {
+      orderRepository.deleteById(id);
+    } else {
+      throw new OrderNotFoundException("Order not found with id: " + id);
+    }
   }
 }

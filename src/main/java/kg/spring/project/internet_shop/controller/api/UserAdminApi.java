@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import kg.spring.project.internet_shop.dto.UserDTO;
+import kg.spring.project.internet_shop.dto.payload.request.UserRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,7 @@ public interface UserAdminApi {
   @Operation(summary = "Создать нового пользователя", description = "Создает нового пользователя")
   @ApiResponse(responseCode = "201", description = "Пользователь успешно создан")
   @ApiResponse(responseCode = "400", description = "Некорректные данные")
-  UserDTO createUser(UserDTO userDTO);
+  UserDTO createUser(UserRequest userDTO);
 
   @PutMapping("/{id}")
   @Operation(summary = "Обновить пользователя", description = "Обновляет информацию о пользователе")

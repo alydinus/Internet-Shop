@@ -1,4 +1,4 @@
-package kg.spring.project.internet_shop.dto;
+package kg.spring.project.internet_shop.dto.payload.response;
 
 import java.util.List;
 import kg.spring.project.internet_shop.entity.CartItem;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartDTO {
+public class CartResponse {
   private Long id;
   private Long userId;
   private List<CartItem> items;

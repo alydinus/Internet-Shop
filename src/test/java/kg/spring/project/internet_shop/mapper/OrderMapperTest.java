@@ -1,6 +1,6 @@
 package kg.spring.project.internet_shop.mapper;
 
-import kg.spring.project.internet_shop.dto.OrderDTO;
+import kg.spring.project.internet_shop.dto.payload.response.OrderResponse;
 import kg.spring.project.internet_shop.dto.OrderItemDTO;
 import kg.spring.project.internet_shop.entity.Order;
 import kg.spring.project.internet_shop.entity.OrderItem;
@@ -28,7 +28,7 @@ class OrderMapperTest {
   private OrderMapper orderMapper;
 
   private Order order;
-  private OrderDTO orderDTO;
+  private OrderResponse orderResponse;
   private OrderItem orderItem;
   private OrderItemDTO orderItemDTO;
 
@@ -50,18 +50,18 @@ class OrderMapperTest {
     order.setStatus(OrderStatus.NEW);
     order.setOrderItems(Arrays.asList(orderItem));
 
-    orderDTO = new OrderDTO();
-    orderDTO.setId(1L);
-    orderDTO.setOrderDate(order.getOrderDate());
-    orderDTO.setStatus(OrderStatus.NEW);
-    orderDTO.setItems(Arrays.asList(orderItemDTO));
+    orderResponse = new OrderResponse();
+    orderResponse.setId(1L);
+    orderResponse.setOrderDate(order.getOrderDate());
+    orderResponse.setStatus(OrderStatus.NEW);
+    orderResponse.setItems(Arrays.asList(orderItemDTO));
   }
 
   @Test
   void toOrderDTO() {
-    when(orderItemMapper.toOrderItemDTO(orderItem)).thenReturn(orderItemDTO);
+    when(orderItemMapper.toOrderItemDTOList(orderItem)).thenReturn(orderItemDTO);
 
-    OrderDTO result = orderMapper.toOrderDTO(order);
+    OrderResponse result = orderMapper.toOrderDTO(order);
 
     assertNotNull(result);
     assertEquals(order.getId(), result.getId());
@@ -71,21 +71,21 @@ class OrderMapperTest {
     assertEquals(1, result.getItems().size());
     assertEquals(orderItemDTO, result.getItems().get(0));
 
-    verify(orderItemMapper, times(1)).toOrderItemDTO(orderItem);
+    verify(orderItemMapper, times(1)).toOrderItemDTOList(orderItem);
   }
 
 
   @Test
   void toOrder() {
-    Order result = orderMapper.toOrder(orderDTO);
+    Order result = orderMapper.toOrder(orderResponse);
 
     assertNotNull(result);
-    assertEquals(orderDTO.getId(), result.getId());
-    assertEquals(orderDTO.getOrderDate(), result.getOrderDate());
-    assertEquals(orderDTO.getStatus(), result.getStatus());
+    assertEquals(orderResponse.getId(), result.getId());
+    assertEquals(orderResponse.getOrderDate(), result.getOrderDate());
+    assertEquals(orderResponse.getStatus(), result.getStatus());
     assertNull(result.getOrderItems());
 
-    verify(orderItemMapper, never()).toOrderItemDTO(any());
+    verify(orderItemMapper, never()).toOrderItemDTOList(any());
   }
 
 

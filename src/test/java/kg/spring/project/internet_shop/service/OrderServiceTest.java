@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import kg.spring.project.internet_shop.dto.OrderDTO;
+import kg.spring.project.internet_shop.dto.payload.response.OrderResponse;
 import kg.spring.project.internet_shop.dto.OrderItemDTO;
 import kg.spring.project.internet_shop.entity.Order;
 import kg.spring.project.internet_shop.entity.OrderItem;
@@ -44,7 +44,7 @@ class OrderServiceImplTest {
   private OrderServiceImpl orderService;
 
   private Order order;
-  private OrderDTO orderDTO;
+  private OrderResponse orderResponse;
   private Product product;
   private OrderItemDTO orderItemDTO;
   private List<OrderItem> orderItems;
@@ -73,10 +73,10 @@ class OrderServiceImplTest {
     orderItems = Arrays.asList(orderItem);
     order.setOrderItems(orderItems);
 
-    orderDTO = new OrderDTO();
-    orderDTO.setId(1L);
-    orderDTO.setOrderDate(order.getOrderDate());
-    orderDTO.setStatus(OrderStatus.NEW);
+    orderResponse = new OrderResponse();
+    orderResponse.setId(1L);
+    orderResponse.setOrderDate(order.getOrderDate());
+    orderResponse.setStatus(OrderStatus.NEW);
   }
 
   @Test
@@ -88,12 +88,12 @@ class OrderServiceImplTest {
       savedOrder.setId(1L);
       return savedOrder;
     });
-    when(orderMapper.toOrderDTO(any(Order.class))).thenReturn(orderDTO);
+    when(orderMapper.toOrderDTO(any(Order.class))).thenReturn(orderResponse);
 
-    OrderDTO result = orderService.createOrder(items);
+    OrderResponse result = orderService.createOrder(items);
 
     assertNotNull(result);
-    assertEquals(orderDTO, result);
+    assertEquals(orderResponse, result);
     verify(productRepository, times(1)).findById(1L);
     verify(orderRepository, times(1)).save(any(Order.class));
     verify(orderMapper, times(1)).toOrderDTO(any(Order.class));

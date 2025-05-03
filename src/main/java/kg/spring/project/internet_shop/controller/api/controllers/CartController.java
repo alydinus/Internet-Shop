@@ -1,7 +1,8 @@
 package kg.spring.project.internet_shop.controller.api.controllers;
 
 import kg.spring.project.internet_shop.controller.api.CartApi;
-import kg.spring.project.internet_shop.dto.CartDTO;
+import kg.spring.project.internet_shop.dto.payload.request.CartItemRequest;
+import kg.spring.project.internet_shop.dto.payload.response.CartResponse;
 import kg.spring.project.internet_shop.mapper.CartMapper;
 import kg.spring.project.internet_shop.service.CartService;
 import lombok.RequiredArgsConstructor;
@@ -18,23 +19,30 @@ public class CartController implements CartApi {
   private final CartService cartService;
   private final CartMapper cartMapper;
 
-  public ResponseEntity<CartDTO> getCart(Long id) {
+  public ResponseEntity<CartResponse> getCart(Long id) {
     return new ResponseEntity<>(cartMapper.toDTO(cartService.getCart(id)), HttpStatus.OK);
   }
 
-  public ResponseEntity<CartDTO> addToCart(Long cartId, Long productId, int quantity) {
-    return new ResponseEntity<>(cartMapper.toDTO(cartService.addToCart(cartId, productId, quantity)), HttpStatus.OK);
+  public ResponseEntity<CartResponse> addToCart(CartItemRequest cartItemRequest) {
+    return new ResponseEntity<>(cartMapper.toDTO(
+        cartService.addToCart(cartItemRequest.getCartId(), cartItemRequest.getProductId(),
+            cartItemRequest.getQuantity())),
+        HttpStatus.OK);
   }
 
-  public ResponseEntity<CartDTO> updateCartItemQuantity(Long cartId, Long productId, int quantity) {
-    return new ResponseEntity<>(cartMapper.toDTO(cartService.updateCart(cartId, productId, quantity)), HttpStatus.OK);
+  public ResponseEntity<CartResponse> updateCartItemQuantity(CartItemRequest cartItemRequest) {
+    return new ResponseEntity<>(
+        cartMapper.toDTO(cartService.updateCart(cartItemRequest.getCartId(), cartItemRequest.getProductId(),
+            cartItemRequest.getQuantity())), HttpStatus.OK);
   }
 
-  public ResponseEntity<CartDTO> removeFromCart(Long cartId, Long productId) {
-    return new ResponseEntity<>(cartMapper.toDTO(cartService.removeFromCart(cartId, productId)), HttpStatus.OK);
+  public ResponseEntity<CartResponse> removeFromCart(CartItemRequest cartItemRequest) {
+    return new ResponseEntity<>(cartMapper.toDTO(
+        cartService.removeFromCart(cartItemRequest.getCartId(), cartItemRequest.getProductId())),
+        HttpStatus.OK);
   }
 
-  public ResponseEntity<String> clearCart(Long cartId) {
-    return new ResponseEntity<>(cartService.clearCart(cartId), HttpStatus.OK);
+  public ResponseEntity<String> clearCart(CartItemRequest cartItemRequest) {
+    return new ResponseEntity<>(cartService.clearCart(cartItemRequest.getCartId()), HttpStatus.OK);
   }
 }

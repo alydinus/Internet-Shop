@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.spring.project.internet_shop.dto.ProductDTO;
+import kg.spring.project.internet_shop.dto.payload.request.ProductRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public interface ProductApi {
   @Operation(summary = "Создать новый товар", description = "Добавляет новый товар")
   @ApiResponse(responseCode = "201", description = "Товар создан", content = @Content(schema = @Schema(implementation = ProductDTO.class)))
   @PostMapping
-  ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO);
+  ResponseEntity<ProductDTO> createProduct(@RequestBody ProductRequest productDTO);
 
   @Operation(summary = "Обновить товар", description = "Обновляет товар")
   @ApiResponse(responseCode = "200", description = "Товар обновлен", content = @Content(schema = @Schema(implementation = ProductDTO.class)))
@@ -40,6 +41,6 @@ public interface ProductApi {
   @ApiResponse(responseCode = "204", description = "Товар удален")
   @ApiResponse(responseCode = "404", description = "Товар не найден")
   @DeleteMapping("/{id}")
-  ResponseEntity<Void> deleteProduct(@PathVariable Long id);
+  ResponseEntity<String> deleteProduct(@PathVariable Long id);
 }
 

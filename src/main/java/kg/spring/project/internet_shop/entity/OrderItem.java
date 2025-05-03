@@ -9,14 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "order_items")
 @Data
-@RequiredArgsConstructor
-@NoArgsConstructor
 public class OrderItem {
 
   @Id

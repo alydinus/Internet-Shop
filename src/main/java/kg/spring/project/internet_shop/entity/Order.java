@@ -16,14 +16,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import kg.spring.project.internet_shop.enums.OrderStatus;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "orders")
 @Data
-@RequiredArgsConstructor
-@NoArgsConstructor
 public class Order {
 
   @Id

@@ -1,66 +1,67 @@
 package kg.spring.project.internet_shop.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import kg.spring.project.internet_shop.dto.ProductDTO;
-import kg.spring.project.internet_shop.entity.Category;
+import kg.spring.project.internet_shop.dto.payload.request.ProductRequest;
 import kg.spring.project.internet_shop.entity.Product;
-import kg.spring.project.internet_shop.mapper.CategoryMapper;
+import kg.spring.project.internet_shop.exception.exceptions.ProductNotFoundException;
 import kg.spring.project.internet_shop.repository.ProductRepository;
-import kg.spring.project.internet_shop.service.CategoryService;
 import kg.spring.project.internet_shop.service.ProductService;
-import kg.spring.project.internet_shop.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
-  private final ProductMapper productMapper;
 
 
-  public List<ProductDTO> getAllProducts() {
-    return productRepository.findAll().stream()
-        .map(productMapper::toProductDTO)
-        .collect(Collectors.toList());
+  public List<Product> getAllProducts() {
+    return productRepository.findAll();
   }
 
-  public ProductDTO getProductById(Long id) {
-    return productMapper.toProductDTO(productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
-        HttpStatus.NOT_FOUND, "Product with id " + id + " not found")));
+  public Product getProductById(Long id) {
+    return productRepository.findById(id)
+        .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
   }
 
-  public ProductDTO createProduct(ProductDTO productDTO) {
-    Product product = productMapper.toProduct(productDTO);
+  public Product createProduct(ProductRequest productRequest) {
+    Product product = new Product();
+    product.setName(productRequest.getName());
+    product.setPrice(productRequest.getPrice());
+    product.setDescription(productRequest.getDescription());
+    product.setStockQuantity(productRequest.getStockQuantity());
+    product.setCategory(product.getCategory());
     productRepository.save(product);
-    return productMapper.toProductDTO(product);
+
+    return product;
 
   }
 
-  public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+  public Product updateProduct(Long id, ProductDTO productDTO) {
 
     Product product = productRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id " + id + " not found"));
+        .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
 
     product.setName(productDTO.getName());
     product.setPrice(productDTO.getPrice());
     product.setDescription(productDTO.getDescription());
     product.setStockQuantity(productDTO.getStockQuantity());
+    product.setCategory(product.getCategory());
+    productRepository.save(product);
 
-    return productMapper.toProductDTO(productRepository.save(product));
+    return product;
   }
 
-  public ProductDTO updateProductPrice(Long id, ProductDTO dto) {
+  public Product updateProductPrice(Long id, Double price) {
     Product product = productRepository.findById(id)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product with id " + id + " not found"));
+        .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
 
-    product.setPrice(dto.getPrice());
+    product.setPrice(price);
+    productRepository.save(product);
 
-    return productMapper.toProductDTO(productRepository.save(product));
+    return product;
   }
 
   public void deleteProduct(Long id) {

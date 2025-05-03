@@ -2,6 +2,7 @@ package kg.spring.project.internet_shop.service;
 
 import java.util.List;
 import kg.spring.project.internet_shop.dto.ProductDTO;
+import kg.spring.project.internet_shop.dto.payload.request.ProductRequest;
 import kg.spring.project.internet_shop.entity.Product;
 
 public interface ProductService {
@@ -10,11 +11,11 @@ public interface ProductService {
 
   Product getProductById(Long id);
 
-  Product createProduct(ProductDTO productDTO);
+  Product createProduct(ProductRequest productDTO);
 
   Product updateProduct(Long id, ProductDTO productDTO);
 
-  Product updateProductPrice(Long id, ProductDTO dto);
+  Product updateProductPrice(Long id, Double price);
 
   void deleteProduct(Long id);
 }

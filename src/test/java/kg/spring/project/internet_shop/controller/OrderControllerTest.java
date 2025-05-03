@@ -1,9 +1,8 @@
 package kg.spring.project.internet_shop.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Collections;
 import kg.spring.project.internet_shop.controller.api.controllers.OrderApiController;
-import kg.spring.project.internet_shop.dto.OrderDTO;
+import kg.spring.project.internet_shop.dto.payload.response.OrderResponse;
 import kg.spring.project.internet_shop.dto.OrderItemDTO;
 import kg.spring.project.internet_shop.enums.OrderStatus;
 import kg.spring.project.internet_shop.service.OrderService;
@@ -39,7 +38,7 @@ class OrderApiControllerTest {
   private MockMvc mockMvc;
   private ObjectMapper objectMapper;
 
-  private OrderDTO orderDTO;
+  private OrderResponse orderResponse;
   private OrderItemDTO orderItemDTO;
 
   @BeforeEach
@@ -53,24 +52,24 @@ class OrderApiControllerTest {
     orderItemDTO.setQuantity(2);
     orderItemDTO.setPrice(100.0);
 
-    orderDTO = new OrderDTO();
-    orderDTO.setId(1L);
-    orderDTO.setOrderDate(LocalDateTime.now());
-    orderDTO.setStatus(OrderStatus.NEW);
-    orderDTO.setItems(Arrays.asList(orderItemDTO));
+    orderResponse = new OrderResponse();
+    orderResponse.setId(1L);
+    orderResponse.setOrderDate(LocalDateTime.now());
+    orderResponse.setStatus(OrderStatus.NEW);
+    orderResponse.setItems(Arrays.asList(orderItemDTO));
   }
 
   @Test
   void createOrder() throws Exception {
-    when(orderService.createOrder(any())).thenReturn(orderDTO);
+    when(orderService.createOrder(any())).thenReturn(orderResponse);
 
     mockMvc.perform(post("/api/orders")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(orderDTO)))
+            .content(objectMapper.writeValueAsString(orderResponse)))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.id").value(orderDTO.getId()))
-        .andExpect(jsonPath("$.status").value(orderDTO.getStatus().toString()))
+        .andExpect(jsonPath("$.id").value(orderResponse.getId()))
+        .andExpect(jsonPath("$.status").value(orderResponse.getStatus().toString()))
         .andExpect(jsonPath("$.items[0].productId").value(orderItemDTO.getProductId()))
         .andExpect(jsonPath("$.items[0].quantity").value(orderItemDTO.getQuantity()))
         .andExpect(jsonPath("$.items[0].price").value(orderItemDTO.getPrice()));
@@ -80,13 +79,13 @@ class OrderApiControllerTest {
 
   @Test
   void getOrderById() throws Exception {
-    when(orderService.getOrderById(1L)).thenReturn(orderDTO);
+    when(orderService.getOrderById(1L)).thenReturn(orderResponse);
 
     mockMvc.perform(get("/api/orders/{id}", 1L))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.id").value(orderDTO.getId()))
-        .andExpect(jsonPath("$.status").value(orderDTO.getStatus().toString()))
+        .andExpect(jsonPath("$.id").value(orderResponse.getId()))
+        .andExpect(jsonPath("$.status").value(orderResponse.getStatus().toString()))
         .andExpect(jsonPath("$.items[0].productId").value(orderItemDTO.getProductId()))
         .andExpect(jsonPath("$.items[0].quantity").value(orderItemDTO.getQuantity()))
         .andExpect(jsonPath("$.items[0].price").value(orderItemDTO.getPrice()));
@@ -96,14 +95,14 @@ class OrderApiControllerTest {
 
   @Test
   void getAllOrders() throws Exception {
-    List<OrderDTO> orderDTOs = Arrays.asList(orderDTO);
-    when(orderService.getAllOrders()).thenReturn(orderDTOs);
+    List<OrderResponse> orderResponses = Arrays.asList(orderResponse);
+    when(orderService.getAllOrders()).thenReturn(orderResponses);
 
     mockMvc.perform(get("/api/orders"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$[0].id").value(orderDTO.getId()))
-        .andExpect(jsonPath("$[0].status").value(orderDTO.getStatus().toString()))
+        .andExpect(jsonPath("$[0].id").value(orderResponse.getId()))
+        .andExpect(jsonPath("$[0].status").value(orderResponse.getStatus().toString()))
         .andExpect(jsonPath("$[0].items[0].productId").value(orderItemDTO.getProductId()))
         .andExpect(jsonPath("$[0].items[0].quantity").value(orderItemDTO.getQuantity()))
         .andExpect(jsonPath("$[0].items[0].price").value(orderItemDTO.getPrice()));

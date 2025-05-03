@@ -1,14 +1,12 @@
 package kg.spring.project.internet_shop.mapper;
 
+import java.util.List;
 import kg.spring.project.internet_shop.dto.OrderItemDTO;
 import kg.spring.project.internet_shop.entity.OrderItem;
-import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
 public interface OrderItemMapper {
 
-  OrderItemDTO toOrderItemDTO(OrderItem item);
-
-  OrderItem toOrderItem(OrderItemDTO dto);
-
+  OrderItem toEntity(OrderItemDTO dto);
+  List<OrderItemDTO> toOrderItemDTOList(List<OrderItem> orderItems);
+  OrderItemDTO toOrderItemDTO(OrderItem orderItem);
 }

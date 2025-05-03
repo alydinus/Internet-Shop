@@ -3,40 +3,46 @@ package kg.spring.project.internet_shop.controller.api.controllers;
 import java.util.List;
 import kg.spring.project.internet_shop.controller.api.ProductApi;
 import kg.spring.project.internet_shop.dto.ProductDTO;
+import kg.spring.project.internet_shop.dto.payload.request.ProductRequest;
+import kg.spring.project.internet_shop.mapper.ProductMapper;
 import kg.spring.project.internet_shop.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
+@RequiredArgsConstructor
 public class ProductApiController implements ProductApi {
 
   private final ProductService productService;
-
-  public ProductApiController(ProductService productService) {
-    this.productService = productService;
-  }
+  private final ProductMapper productMapper;
 
   public ResponseEntity<List<ProductDTO>> getAllProducts() {
-    return ResponseEntity.ok(productService.getAllProducts());
+    return new ResponseEntity<>(productMapper.toDtoList(productService.getAllProducts()),
+        HttpStatus.OK);
   }
 
   public ResponseEntity<ProductDTO> getProductById(Long id) {
-    return ResponseEntity.ok(productService.getProductById(id));
+    return new ResponseEntity<>(productMapper.toProductDTO(productService.getProductById(id)),
+        HttpStatus.OK);
   }
 
-  public ResponseEntity<ProductDTO> createProduct(ProductDTO dto) {
-    return ResponseEntity.ok(productService.createProduct(dto));
+  public ResponseEntity<ProductDTO> createProduct(ProductRequest productDTO) {
+    return new ResponseEntity<>(
+        productMapper.toProductDTO(productService.createProduct(productDTO)), HttpStatus.CREATED);
   }
 
-  public ResponseEntity<ProductDTO> updateProduct(Long id, ProductDTO dto) {
-    return ResponseEntity.ok(productService.updateProduct(id, dto));
+  public ResponseEntity<ProductDTO> updateProduct(Long id, ProductDTO productDTO) {
+    return new ResponseEntity<>(
+        productMapper.toProductDTO(productService.updateProduct(id, productDTO)), HttpStatus.OK);
   }
 
-  public ResponseEntity<Void> deleteProduct(Long id) {
+  public ResponseEntity<String> deleteProduct(Long id) {
     productService.deleteProduct(id);
-    return ResponseEntity.noContent().build();
+    return new ResponseEntity<>("Product deleted successfully", HttpStatus.NO_CONTENT);
   }
 }
 
