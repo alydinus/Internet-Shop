@@ -1,5 +1,6 @@
 package kg.spring.project.internet_shop.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import kg.spring.project.internet_shop.dto.payload.request.UserRequest;
 import kg.spring.project.internet_shop.entity.User;
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
     return userRepository.findAll();
   }
 
-  public void createUser(UserRequest user) {
+  public User createUser(UserRequest user) {
     User newUser = new User();
     newUser.setFirstName(user.getFirstName());
     newUser.setLastName(user.getLastName());
@@ -32,10 +33,12 @@ public class UserServiceImpl implements UserService {
     newUser.setEmail(user.getEmail());
     newUser.setPassword(user.getPassword());
     newUser.setRole(user.getRole());
+    newUser.setRegistrationDate(LocalDateTime.now());
     userRepository.save(newUser);
+    return newUser;
   }
 
-  public void updateUser(Long id, UserRequest user) {
+  public User updateUser(Long id, UserRequest user) {
     User existingUser = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
     existingUser.setFirstName(user.getFirstName());
@@ -45,6 +48,7 @@ public class UserServiceImpl implements UserService {
     existingUser.setPassword(user.getPassword());
     existingUser.setRole(user.getRole());
     userRepository.save(existingUser);
+    return existingUser;
   }
 
   public void deleteUser(Long id) {

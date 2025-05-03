@@ -1,5 +1,7 @@
 package kg.spring.project.internet_shop.dto;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import kg.spring.project.internet_shop.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;

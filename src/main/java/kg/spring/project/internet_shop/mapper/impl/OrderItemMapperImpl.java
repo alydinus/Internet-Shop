@@ -30,7 +30,6 @@ public class OrderItemMapperImpl implements OrderItemMapper {
   public OrderItemDTO toOrderItemDTO(OrderItem orderItem) {
     OrderItemDTO dto = new OrderItemDTO();
     dto.setProductId(orderItem.getProduct().getId());
-    dto.setId(orderItem.getId());
     dto.setQuantity(orderItem.getQuantity());
     dto.setPrice(orderItem.getPrice());
     return dto;

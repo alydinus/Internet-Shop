@@ -25,21 +25,18 @@ public class OrderServiceImpl implements OrderService {
 
   public Order createOrder(Long userId, List<OrderItemDTO> orderItems) {
     Order order = new Order();
-    try {
       List<OrderItem> orderItemList = orderItems.stream()
           .map(orderItemMapper::toEntity)
           .toList();
       User user = userServiceImpl.getUserById(userId);
+      if (user == null) {
+        throw new UserNotFoundException("User with id " + userId + " not found");
+      }
       order.setUser(user);
       order.setOrderItems(orderItemList);
       order.setStatus(OrderStatus.NEW);
       order.setOrderDate(LocalDateTime.now());
       return orderRepository.save(order);
-    } catch (UserNotFoundException | NullPointerException e) {
-      throw new UserNotFoundException("User not found with id: " + userId);
-    } catch (Exception e) {
-      throw new RuntimeException("Error creating order: " + e.getMessage());
-    }
   }
 
   public Order getOrderById(Long id) {

@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     product.setPrice(productRequest.getPrice());
     product.setDescription(productRequest.getDescription());
     product.setStockQuantity(productRequest.getStockQuantity());
-    product.setCategory(product.getCategory());
+    product.setCategory(productRequest.getCategoryName());
     productRepository.save(product);
 
     return product;
@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
 
+    product.setId(id);
     product.setName(productDTO.getName());
     product.setPrice(productDTO.getPrice());
     product.setDescription(productDTO.getDescription());
