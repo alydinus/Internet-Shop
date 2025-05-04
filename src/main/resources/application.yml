@@ -5,4 +5,4 @@ spring:
     active: h2
 jwt:
     secret: afsdkhjasdjhkfhadsjklghadslkjghaskdjghakjsd
-    expiration: 1000
+    expiration: 1800000

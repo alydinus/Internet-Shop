@@ -67,8 +67,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   }
 
   public User updateUser(Long id, String firstName, String lastName, String username, String email,
-      String password,
-      Role role) {
+      String password, Role role) {
     User existingUser = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
     existingUser.setFirstName(firstName);
@@ -77,6 +76,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     existingUser.setEmail(email);
     existingUser.setPassword(password);
     existingUser.setRole(role);
+    userRepository.save(existingUser);
+    return existingUser;
+  }
+
+  public User updateUserRefreshToken(Long id, String refreshToken) {
+    User existingUser = userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+    existingUser.setRefreshToken(refreshToken);
     userRepository.save(existingUser);
     return existingUser;
   }

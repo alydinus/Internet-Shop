@@ -2,6 +2,7 @@ package kg.spring.project.internet_shop.service.impl;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import kg.spring.project.internet_shop.dto.payload.response.JwtResponse;
+import kg.spring.project.internet_shop.entity.User;
 import kg.spring.project.internet_shop.enums.Role;
 import kg.spring.project.internet_shop.exception.exceptions.PasswordDoNotMatchException;
 import kg.spring.project.internet_shop.exception.exceptions.UserAlreadyExistsException;
@@ -34,6 +35,8 @@ public class AuthServiceImpl implements AuthService {
     UserDetails userDetails = userService.loadUserByUsername(username);
     String accessToken = jwtTokenUtils.generateAccessToken(userDetails);
     String refreshToken = jwtTokenUtils.generateRefreshToken(userDetails);
+    User user = userService.getUserByUsername(username);
+    userService.updateUserRefreshToken(user.getId(), refreshToken);
     return new JwtResponse(accessToken,refreshToken);
   }
 
@@ -63,7 +66,8 @@ public class AuthServiceImpl implements AuthService {
 
     String newAccessToken = jwtTokenUtils.generateAccessToken(userDetails);
     String newRefreshToken = jwtTokenUtils.generateRefreshToken(userDetails);
-
+    User user = userService.getUserByUsername(userDetails.getUsername());
+    userService.updateUserRefreshToken(user.getId(), refreshToken);
     return new JwtResponse(newAccessToken, newRefreshToken);
 
   }

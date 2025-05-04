@@ -47,10 +47,14 @@ public class User {
   @Enumerated(EnumType.STRING)
   private Role role;
 
+  @Column(name = "refresh_token")
+  private String refreshToken;
+
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Cart cart;
 
   @OneToMany(mappedBy = "user")
   private List<Order> orders;
+
 
 }
