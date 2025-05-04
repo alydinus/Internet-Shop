@@ -38,14 +38,21 @@ public class UserAdminController {
   @PostMapping("/create")
   public ResponseEntity<UserDTO> createUser(@RequestBody UserRequest userRequest) {
     System.out.println("userRequest = " + userRequest);
-    return new ResponseEntity<>(userMapper.toUserDTO(userService.createUser(userRequest)),
+    return new ResponseEntity<>(userMapper.toUserDTO(
+        userService.createUser(userRequest.getFirstName(), userRequest.getLastName(),
+            userRequest.getUsername(), userRequest.getEmail(), userRequest.getPassword(),
+            userRequest.getRole())),
         HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserRequest userDTO) {
+  public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,
+      @RequestBody UserRequest userDTO) {
     return new ResponseEntity<>(
-        userMapper.toUserDTO(userService.updateUser(id, userDTO)), HttpStatus.OK);
+        userMapper.toUserDTO(
+            userService.updateUser(id, userDTO.getFirstName(), userDTO.getLastName(),
+                userDTO.getUsername(), userDTO.getEmail(), userDTO.getPassword(),
+                userDTO.getRole())), HttpStatus.OK);
   }
 
   @DeleteMapping("/{id}")

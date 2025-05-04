@@ -3,3 +3,6 @@ spring:
     name: Internet_Shop_Backend
   profiles:
     active: h2
+jwt:
+    secret: afsdkhjasdjhkfhadsjklghadslkjghaskdjghakjsd
+    expiration: 1800000
