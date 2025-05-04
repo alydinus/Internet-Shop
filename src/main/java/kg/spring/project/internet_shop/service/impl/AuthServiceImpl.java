@@ -1,5 +1,6 @@
 package kg.spring.project.internet_shop.service.impl;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import kg.spring.project.internet_shop.dto.payload.response.JwtResponse;
 import kg.spring.project.internet_shop.enums.Role;
 import kg.spring.project.internet_shop.exception.exceptions.PasswordDoNotMatchException;
@@ -31,8 +32,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     UserDetails userDetails = userService.loadUserByUsername(username);
-    String jwtToken = jwtTokenUtils.generateToken(userDetails);
-    return new JwtResponse(jwtToken);
+    String accessToken = jwtTokenUtils.generateAccessToken(userDetails);
+    String refreshToken = jwtTokenUtils.generateRefreshToken(userDetails);
+    return new JwtResponse(accessToken,refreshToken);
   }
 
   public void register(String username, String password, String confirmPassword, String email,
@@ -50,5 +52,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     userService.createUser(firstName, lastName, username, email, password, Role.ROLE_USER);
+  }
+
+  public JwtResponse refreshToken(String refreshToken) {
+    UserDetails userDetails = userService.loadUserByUsername(jwtTokenUtils.getUsername(refreshToken));
+    if (refreshToken == null || !jwtTokenUtils.isTokenValid(refreshToken, userDetails)) {
+      throw new ExpiredJwtException(null, null,
+          "Refresh token is expired or invalid");
+    }
+
+    String newAccessToken = jwtTokenUtils.generateAccessToken(userDetails);
+    String newRefreshToken = jwtTokenUtils.generateRefreshToken(userDetails);
+
+    return new JwtResponse(newAccessToken, newRefreshToken);
+
   }
 }

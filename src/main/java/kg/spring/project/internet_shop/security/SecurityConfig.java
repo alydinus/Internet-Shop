@@ -59,7 +59,7 @@ public class SecurityConfig {
             .anyRequest().authenticated()
         )
         .exceptionHandling(ex ->
-            ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
         ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

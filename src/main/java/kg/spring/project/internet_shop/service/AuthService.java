@@ -8,4 +8,6 @@ public interface AuthService {
 
   void register(String username, String password, String confirmPassword, String email,
       String firstName, String lastName);
+
+  JwtResponse refreshToken(String refreshToken);
 }

@@ -1,5 +1,6 @@
 package kg.spring.project.internet_shop.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import kg.spring.project.internet_shop.exception.exceptions.CartNotFoundException;
 import kg.spring.project.internet_shop.exception.exceptions.NoSuchItemInCartException;
 import kg.spring.project.internet_shop.exception.exceptions.OrderNotFoundException;
@@ -54,5 +55,10 @@ public class GlobalExceptionHandler {
   @ExceptionHandler
   public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<String>handleJwtTokenIsExpiredOrInvalid(ExpiredJwtException e){
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
   }
 }
