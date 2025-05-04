@@ -36,18 +36,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   public User getUserByUsername(String username) {
     if (userRepository.findByUsername(username).isPresent()) {
-      return userRepository.findByUsername(username)
-          .orElseThrow(() -> new UserAlreadyExistsException("User already exists with username: " + username));
+      return userRepository.findByUsername(username).get();
     }
-    return null;
+    else {
+      return null;
+    }
   }
 
   public User getUserByEmail(String email) {
     if (userRepository.findByEmail(email).isPresent()) {
-      return userRepository.findByEmail(email)
-          .orElseThrow(() -> new UserAlreadyExistsException("User already exists with email: " + email));
+      return userRepository.findByEmail(email).get();
+    } else{
+      return null;
     }
-    return null;
   }
 
   public User createUser(String firstName, String lastName, String username, String email,

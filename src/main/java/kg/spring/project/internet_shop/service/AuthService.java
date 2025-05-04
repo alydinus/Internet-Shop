@@ -10,4 +10,6 @@ public interface AuthService {
       String firstName, String lastName);
 
   JwtResponse refreshToken(String refreshToken);
+
+  String confirmEmail(String email);
 }

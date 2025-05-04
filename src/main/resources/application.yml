@@ -3,6 +3,17 @@ spring:
     name: Internet_Shop_Backend
   profiles:
     active: h2
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: alykulovalydin@gmail.com
+    password: xjxsxffzogqbnciq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 jwt:
     secret: afsdkhjasdjhkfhadsjklghadslkjghaskdjghakjsd
     expiration: 1800000

@@ -7,6 +7,7 @@ import kg.spring.project.internet_shop.exception.exceptions.OrderNotFoundExcepti
 import kg.spring.project.internet_shop.exception.exceptions.PasswordDoNotMatchException;
 import kg.spring.project.internet_shop.exception.exceptions.ProductNotFoundException;
 import kg.spring.project.internet_shop.exception.exceptions.UserAlreadyExistsException;
+import kg.spring.project.internet_shop.exception.exceptions.UserIsNotActivated;
 import kg.spring.project.internet_shop.exception.exceptions.UserNotFoundException;
 import kg.spring.project.internet_shop.exception.exceptions.WrongCredentials;
 import org.springframework.http.HttpStatus;
@@ -59,6 +60,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler
   public ResponseEntity<String>handleJwtTokenIsExpiredOrInvalid(ExpiredJwtException e){
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<String> handleUserIsNotActivatedException(UserIsNotActivated e) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
   }
 }

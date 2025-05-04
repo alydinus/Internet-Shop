@@ -50,6 +50,9 @@ public class User {
   @Column(name = "refresh_token")
   private String refreshToken;
 
+  @Column(name = "is_active")
+  private boolean isActive;
+
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Cart cart;
 
