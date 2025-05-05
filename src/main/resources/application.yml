@@ -19,11 +19,11 @@ spring:
       client:
         registration:
           google:
-            client-id: 178934652578-ocmpgo01fbhqnfd1cdoijocics4okeiu.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
           github:
-            client-id: Ov23lii6UK2X49jjhtoF
-            client-secret: 7cfae87dbc50e720aebe31a5f1d79cb932198208
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
 
 jwt:
     secret: afsdkhjasdjhkfhadsjklghadslkjghaskdjghakjsd
