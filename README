@@ -1,0 +1,64 @@
+# Internet Shop Backend — Security Module Overview
+
+This repository demonstrates secure authentication mechanisms for a Spring Boot–based online store backend. Below is an overview of all implemented features as part of the **Security Module**.
+
+---
+
+## 🔐 User Authentication
+
+### ✅ Traditional Username/Password Login
+- Secure login endpoint using Spring Security.
+- Passwords are hashed using **BCrypt** before storage.
+- Login returns **access** and **refresh** JWT tokens.
+
+### 🌐 Social Authentication
+- OAuth2 login support for:
+  - **Google**
+  - **Facebook**
+  - **GitHub**
+- Users are auto-registered on first login via social providers.
+
+### 🪪 JWT Token Management
+- On successful login, the server generates:
+  - Short-lived **access token**
+  - Long-lived **refresh token**
+- Refresh tokens are:
+  - Stored securely in the **PostgreSQL database**
+  - Revoked on logout
+- JWTs include proper expiration (`exp` claim) and are cryptographically signed.
+
+---
+
+## 🧾 User Registration
+
+### ✉️ Registration Endpoint
+- `/api/auth/register` accepts `username`, `email`, `password`
+- Validates input and saves securely into the database.
+
+### 🔗 Email Verification *(Optional)*
+- (If enabled) On registration, a **verification email** is sent with a secure token.
+- Users must verify email before login is permitted.
+
+---
+
+## 🔒 Security Enhancements *(Bonus Features)*
+
+### 🔐 Two-Factor Authentication (2FA)
+- Optional 2FA via:
+  - Email-based one-time code
+
+---
+
+## 🔐 API Security Demonstration
+
+### 🧑‍💻 Access Control
+- Protected routes (e.g., `/api/user/me`) require valid JWT in `Authorization: Bearer <token>`.
+- Public routes (e.g., `/api/auth/login`, `/api/auth/register`) are accessible without authentication.
+
+### 🔐 Role-based Access
+- Admin vs. User roles enforced on sensitive endpoints.
+
+### Example:
+```http
+GET /api/user/orders
+Authorization: Bearer <access-token>
