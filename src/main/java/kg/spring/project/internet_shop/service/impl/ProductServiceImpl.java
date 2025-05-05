@@ -4,6 +4,7 @@ import java.util.List;
 import kg.spring.project.internet_shop.dto.ProductDTO;
 import kg.spring.project.internet_shop.dto.payload.request.ProductRequest;
 import kg.spring.project.internet_shop.entity.Product;
+import kg.spring.project.internet_shop.enums.Category;
 import kg.spring.project.internet_shop.exception.exceptions.ProductNotFoundException;
 import kg.spring.project.internet_shop.repository.ProductRepository;
 import kg.spring.project.internet_shop.service.ProductService;
@@ -26,29 +27,32 @@ public class ProductServiceImpl implements ProductService {
         .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
   }
 
-  public Product createProduct(ProductRequest productRequest) {
+  public Product createProduct(String name, Double price, String description,
+      Integer stockQuantity, String categoryName) {
     Product product = new Product();
-    product.setName(productRequest.getName());
-    product.setPrice(productRequest.getPrice());
-    product.setDescription(productRequest.getDescription());
-    product.setStockQuantity(productRequest.getStockQuantity());
-    product.setCategory(productRequest.getCategoryName());
+    product.setName(name);
+    product.setPrice(price);
+    product.setDescription(description);
+    product.setStockQuantity(stockQuantity);
+    Category category = Category.valueOf(categoryName.toUpperCase());
+    product.setCategory(category);
     productRepository.save(product);
 
     return product;
 
   }
 
-  public Product updateProduct(Long id, ProductDTO productDTO) {
+  public Product updateProduct(Long id, String name, Double price, String description,
+      Integer stockQuantity, String categoryName) {
 
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
 
     product.setId(id);
-    product.setName(productDTO.getName());
-    product.setPrice(productDTO.getPrice());
-    product.setDescription(productDTO.getDescription());
-    product.setStockQuantity(productDTO.getStockQuantity());
+    product.setName(name);
+    product.setPrice(price);
+    product.setDescription(description);
+    product.setStockQuantity(stockQuantity);
     product.setCategory(product.getCategory());
     productRepository.save(product);
 

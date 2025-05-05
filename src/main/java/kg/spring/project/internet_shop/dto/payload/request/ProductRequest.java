@@ -13,7 +13,7 @@ public class ProductRequest {
   private String name;
   private String description;
   private Double price;
-  private Category categoryName;
+  private String categoryName;
   private int stockQuantity;
 
 }

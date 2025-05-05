@@ -19,8 +19,8 @@ public class UserController {
   private final UserService userService;
   private final UserMapper userMapper;
 
-  @GetMapping("/{id}")
-  public ResponseEntity<UserDTO> getCurrentUser(@PathVariable Long id) {
-    return new ResponseEntity<>(userMapper.toUserDTO(userService.getUserById(id)), HttpStatus.OK);
+  @GetMapping("/me")
+  public ResponseEntity<UserDTO> getCurrentUser() {
+    return new ResponseEntity<>(userMapper.toUserDTO(userService.getCurrentUser()), HttpStatus.OK);
   }
 }

@@ -1,5 +1,6 @@
 package kg.spring.project.internet_shop.service.impl;
 
+import java.util.List;
 import kg.spring.project.internet_shop.entity.Cart;
 import kg.spring.project.internet_shop.entity.CartItem;
 import kg.spring.project.internet_shop.entity.Product;
@@ -7,6 +8,7 @@ import kg.spring.project.internet_shop.entity.User;
 import kg.spring.project.internet_shop.exception.exceptions.CartNotFoundException;
 import kg.spring.project.internet_shop.exception.exceptions.NoSuchItemInCartException;
 import kg.spring.project.internet_shop.exception.exceptions.ProductNotFoundException;
+import kg.spring.project.internet_shop.repository.CartItemRepository;
 import kg.spring.project.internet_shop.repository.CartRepository;
 import kg.spring.project.internet_shop.service.CartService;
 import kg.spring.project.internet_shop.service.ProductService;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class CartServiceImpl implements CartService {
 
   private final CartRepository cartRepository;
+  private final CartItemRepository cartItemRepository;
   private final ProductService productService;
   private final UserService userService;
 
@@ -42,6 +45,8 @@ public class CartServiceImpl implements CartService {
     cartItem.setQuantity(quantity);
     cartItem.setPrice(productById.getPrice());
     cartItem.setCart(cart);
+
+    cartItemRepository.save(cartItem);
     return cartRepository.save(cart);
   }
 

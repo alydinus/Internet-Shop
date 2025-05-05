@@ -14,6 +14,17 @@ spring:
           auth: true
           starttls:
             enable: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 178934652578-ocmpgo01fbhqnfd1cdoijocics4okeiu.apps.googleusercontent.com
+            client-secret: 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
+          github:
+            client-id: Ov23lii6UK2X49jjhtoF
+            client-secret: 7cfae87dbc50e720aebe31a5f1d79cb932198208
+
 jwt:
     secret: afsdkhjasdjhkfhadsjklghadslkjghaskdjghakjsd
     expiration: 1800000

@@ -13,6 +13,8 @@ public interface UserService extends UserDetailsService {
 
   User getUserByEmail(String email);
 
+  User getCurrentUser();
+
   List<User> getAllUsers();
 
   User createUser(String firstName, String lastName, String username, String email, String password,
@@ -20,6 +22,8 @@ public interface UserService extends UserDetailsService {
 
   User updateUser(Long id, String firstName, String lastName, String username, String email, String password,
       Role role);
+
+  User updateUserActiveStatus(Long id, boolean isActive);
 
   User updateUserRefreshToken(Long id, String refreshToken);
 

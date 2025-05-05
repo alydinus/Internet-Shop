@@ -4,12 +4,14 @@ import io.jsonwebtoken.ExpiredJwtException;
 import java.util.UUID;
 import kg.spring.project.internet_shop.dto.payload.response.JwtResponse;
 import kg.spring.project.internet_shop.entity.User;
+import kg.spring.project.internet_shop.entity.VerificationToken;
 import kg.spring.project.internet_shop.enums.Role;
 import kg.spring.project.internet_shop.exception.exceptions.PasswordDoNotMatchException;
 import kg.spring.project.internet_shop.exception.exceptions.UserAlreadyExistsException;
 import kg.spring.project.internet_shop.exception.exceptions.UserIsNotActivated;
 import kg.spring.project.internet_shop.exception.exceptions.WrongCredentials;
 import kg.spring.project.internet_shop.service.AuthService;
+import kg.spring.project.internet_shop.service.EmailConfirmationService;
 import kg.spring.project.internet_shop.service.MailService;
 import kg.spring.project.internet_shop.service.UserService;
 import kg.spring.project.internet_shop.service.VerificationTokenService;
@@ -30,6 +32,7 @@ public class AuthServiceImpl implements AuthService {
   private final JwtTokenUtils jwtTokenUtils;
   private final MailService mailService;
   private final VerificationTokenService verificationTokenService;
+  private final EmailConfirmationService emailConfirmationService;
 
   public JwtResponse login(String username, String password) {
     try {
@@ -47,6 +50,14 @@ public class AuthServiceImpl implements AuthService {
       throw new UserIsNotActivated("Please confirm your email address");
     }
     userService.updateUserRefreshToken(user.getId(), refreshToken);
+
+
+    String verificationToken = emailConfirmationService.createEmailConfirmationToken(user.getEmail());
+
+    mailService.sendEmail(user.getEmail(),
+        "Hello! " + user.getFirstName(),
+        "Your verification token is: " + verificationToken);
+
     return new JwtResponse(accessToken, refreshToken);
   }
 
@@ -95,6 +106,11 @@ public class AuthServiceImpl implements AuthService {
       throw new UserAlreadyExistsException("User with this email does not exist");
     }
     user.setActive(true);
+    userService.updateUserActiveStatus(user.getId(), true);
     return "Email confirmed successfully";
+  }
+
+  public String verifyEmail(String token) {
+
   }
 }

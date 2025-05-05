@@ -12,4 +12,6 @@ public interface AuthService {
   JwtResponse refreshToken(String refreshToken);
 
   String confirmEmail(String email);
+
+  String verifyEmail(String token);
 }

@@ -1,6 +1,7 @@
 package kg.spring.project.internet_shop.controller.api;
 
 import kg.spring.project.internet_shop.dto.payload.request.CartItemRequest;
+import kg.spring.project.internet_shop.dto.payload.request.CartItemUpdateRequest;
 import kg.spring.project.internet_shop.dto.payload.response.CartResponse;
 import kg.spring.project.internet_shop.mapper.CartMapper;
 import kg.spring.project.internet_shop.service.CartService;
@@ -36,11 +37,6 @@ public class CartController {
         cartService.addToCart(cartItemRequest.getCartId(), cartItemRequest.getProductId(),
             cartItemRequest.getQuantity())),
         HttpStatus.OK);
-  }
-
-  @PostMapping("/create")
-  public ResponseEntity<CartResponse> createCart(@RequestParam Long userId) {
-    return new ResponseEntity<>(cartMapper.toDTO(cartService.createCart(userId)), HttpStatus.CREATED);
   }
 
   @PutMapping

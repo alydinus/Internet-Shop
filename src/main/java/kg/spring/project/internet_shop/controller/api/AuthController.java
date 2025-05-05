@@ -43,7 +43,12 @@ public class AuthController {
   }
 
   @GetMapping("/confirm")
-  public ResponseEntity<?> confirmEmail(@RequestParam String token) {
+  public ResponseEntity<?> confirmEmailRegistatraion(@RequestParam String token) {
     return new ResponseEntity<>(authService.confirmEmail(token), HttpStatus.OK);
+  }
+  
+  @PostMapping("/confirm-email")
+  public ResponseEntity<?> confirmEmail(@RequestParam String email) {
+    return new ResponseEntity<>(authService.(email), HttpStatus.OK);
   }
 }

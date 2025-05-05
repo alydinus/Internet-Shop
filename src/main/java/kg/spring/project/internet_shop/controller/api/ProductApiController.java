@@ -42,14 +42,20 @@ public class ProductApiController {
   @PostMapping("/create")
   public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductRequest productDTO) {
     return new ResponseEntity<>(
-        productMapper.toProductDTO(productService.createProduct(productDTO)), HttpStatus.CREATED);
+        productMapper.toProductDTO(
+            productService.createProduct(productDTO.getName(), productDTO.getPrice(),
+                productDTO.getDescription(), productDTO.getStockQuantity(),
+                productDTO.getCategoryName())), HttpStatus.CREATED);
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
     System.out.println("ProductDTO = " + productDTO);
     return new ResponseEntity<>(
-        productMapper.toProductDTO(productService.updateProduct(id, productDTO)), HttpStatus.OK);
+        productMapper.toProductDTO(
+            productService.updateProduct(id, productDTO.getName(), productDTO.getPrice(),
+                productDTO.getDescription(), productDTO.getStockQuantity(),
+                productDTO.getCategoryName())), HttpStatus.OK);
   }
 
   @PatchMapping("/{id}/price")

@@ -37,7 +37,6 @@ public class UserAdminController {
 
   @PostMapping("/create")
   public ResponseEntity<UserDTO> createUser(@RequestBody UserRequest userRequest) {
-    System.out.println("userRequest = " + userRequest);
     return new ResponseEntity<>(userMapper.toUserDTO(
         userService.createUser(userRequest.getFirstName(), userRequest.getLastName(),
             userRequest.getUsername(), userRequest.getEmail(), userRequest.getPassword(),

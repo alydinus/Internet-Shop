@@ -11,9 +11,11 @@ public interface ProductService {
 
   Product getProductById(Long id);
 
-  Product createProduct(ProductRequest productDTO);
+  Product createProduct(String name, Double price, String description,
+      Integer stockQuantity, String categoryName);
 
-  Product updateProduct(Long id, ProductDTO productDTO);
+  Product updateProduct(Long id, String name, Double price, String description,
+      Integer stockQuantity, String categoryName);
 
   Product updateProductPrice(Long id, Double price);
 
