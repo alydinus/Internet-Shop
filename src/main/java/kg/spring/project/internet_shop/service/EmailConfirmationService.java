@@ -4,4 +4,6 @@ public interface EmailConfirmationService {
 
   String createEmailConfirmationToken(String email);
 
+  String getTokenByUserId(Long userId);
+
 }

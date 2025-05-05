@@ -6,8 +6,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: alykulovalydin@gmail.com
-    password: xjxsxffzogqbnciq
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -26,5 +26,5 @@ spring:
             client-secret: ${GITHUB_CLIENT_SECRET}
 
 jwt:
-    secret: afsdkhjasdjhkfhadsjklghadslkjghaskdjghakjsd
-    expiration: 1800000
+    secret: ${JWT_SECRET}
+    expiration: ${JWT_EXPIRATION}

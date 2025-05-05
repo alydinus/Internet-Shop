@@ -112,6 +112,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     return userRepository.save(user);
   }
 
+  public User updateUserTwoFAStatus(Long id, boolean twoFA) {
+    User user = getUserById(id);
+    if (user == null) {
+      throw new UserNotFoundException("User not found with id: " + id);
+    }
+
+    user.setTwoFA(twoFA);
+    return userRepository.save(user);
+  }
+
   public User updateUserRefreshToken(Long id, String refreshToken) {
     User existingUser = userRepository.findById(id)
         .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));

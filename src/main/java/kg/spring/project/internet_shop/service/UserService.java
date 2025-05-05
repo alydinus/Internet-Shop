@@ -25,6 +25,8 @@ public interface UserService extends UserDetailsService {
 
   User updateUserActiveStatus(Long id, boolean isActive);
 
+  User updateUserTwoFAStatus(Long id, boolean twoFA);
+
   User updateUserRefreshToken(Long id, String refreshToken);
 
   void deleteUser(Long id);

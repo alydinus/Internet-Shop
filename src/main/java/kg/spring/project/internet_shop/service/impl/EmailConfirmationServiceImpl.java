@@ -2,6 +2,7 @@ package kg.spring.project.internet_shop.service.impl;
 
 import java.util.UUID;
 import kg.spring.project.internet_shop.entity.EmailConfirmationToken;
+import kg.spring.project.internet_shop.entity.User;
 import kg.spring.project.internet_shop.repository.EmailConfirmationRepository;
 import kg.spring.project.internet_shop.service.EmailConfirmationService;
 import kg.spring.project.internet_shop.service.UserService;
@@ -28,5 +29,10 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
     return substring;
   }
 
-
+  public String getTokenByUserId(Long userId) {
+    User userById = userService.getUserById(userId);
+    EmailConfirmationToken token = emailConfirmationRepository.findByUserId(userById.getId())
+        .orElseThrow(() -> new RuntimeException("Token not found"));
+    return token.getToken();
+  }
 }

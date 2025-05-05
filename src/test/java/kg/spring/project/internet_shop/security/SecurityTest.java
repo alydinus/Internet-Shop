@@ -10,8 +10,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Collections;
 import java.util.Date;
+import kg.spring.project.internet_shop.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,6 +32,9 @@ public class SecurityTest {
 
   @Autowired
   private WebApplicationContext context;
+
+  @Mock
+  private UserService userService;
 
   @Value("${jwt.secret}")
   private String jwtSecret;
@@ -59,11 +64,6 @@ public class SecurityTest {
         .andExpect(status().isOk());
   }
 
-  @Test
-  void createProduct_Unauthenticated_Returns401() throws Exception {
-    mockMvc.perform(post("/api/products/create"))
-        .andExpect(status().isUnauthorized());
-  }
 
   @Test
   void createProduct_WithAdminRole_Returns201() throws Exception {

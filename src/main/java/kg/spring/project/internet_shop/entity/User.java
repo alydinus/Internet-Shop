@@ -53,6 +53,9 @@ public class User {
   @Column(name = "is_active")
   private boolean isActive;
 
+  @Column(name = "2fa")
+  private boolean twoFA;
+
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Cart cart;
 

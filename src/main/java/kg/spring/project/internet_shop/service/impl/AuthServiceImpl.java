@@ -1,10 +1,9 @@
 package kg.spring.project.internet_shop.service.impl;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import java.util.UUID;
 import kg.spring.project.internet_shop.dto.payload.response.JwtResponse;
+import kg.spring.project.internet_shop.entity.EmailConfirmationToken;
 import kg.spring.project.internet_shop.entity.User;
-import kg.spring.project.internet_shop.entity.VerificationToken;
 import kg.spring.project.internet_shop.enums.Role;
 import kg.spring.project.internet_shop.exception.exceptions.PasswordDoNotMatchException;
 import kg.spring.project.internet_shop.exception.exceptions.UserAlreadyExistsException;
@@ -46,17 +45,24 @@ public class AuthServiceImpl implements AuthService {
     String accessToken = jwtTokenUtils.generateAccessToken(userDetails);
     String refreshToken = jwtTokenUtils.generateRefreshToken(userDetails);
     User user = userService.getUserByUsername(username);
-    if (!user.isActive()) {
+
+
+    if (!user.isTwoFA()) {
+      String verificationToken = emailConfirmationService.createEmailConfirmationToken(user.getEmail());
+      mailService.sendEmail(user.getEmail(),
+          "Hello! " + user.getFirstName(),
+          "Your verification token is: " + verificationToken);
+    }
+
+
+
+    if (!user.isActive() || !user.isTwoFA()) {
       throw new UserIsNotActivated("Please confirm your email address");
     }
+
     userService.updateUserRefreshToken(user.getId(), refreshToken);
 
 
-    String verificationToken = emailConfirmationService.createEmailConfirmationToken(user.getEmail());
-
-    mailService.sendEmail(user.getEmail(),
-        "Hello! " + user.getFirstName(),
-        "Your verification token is: " + verificationToken);
 
     return new JwtResponse(accessToken, refreshToken);
   }
@@ -110,7 +116,17 @@ public class AuthServiceImpl implements AuthService {
     return "Email confirmed successfully";
   }
 
-  public String verifyEmail(String token) {
+  public String verifyEmail(String email, String token) {
+    User user = userService.getUserByEmail(email);
+    String tokenByUserId = emailConfirmationService.getTokenByUserId(user.getId());
+    if (token.equals(tokenByUserId)) {
+      user.setTwoFA(true);
+      userService.updateUserTwoFAStatus(user.getId(), true);
+    } else {
+      throw new PasswordDoNotMatchException("Token is not valid");
+    }
+
+    return "Passwords match.";
 
   }
 }

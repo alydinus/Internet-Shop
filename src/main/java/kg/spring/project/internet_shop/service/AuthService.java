@@ -13,5 +13,5 @@ public interface AuthService {
 
   String confirmEmail(String email);
 
-  String verifyEmail(String token);
+  String verifyEmail(String email, String token);
 }

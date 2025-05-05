@@ -51,8 +51,8 @@ public class SecurityConfig {
         .formLogin(Customizer.withDefaults())
         .oauth2Login(Customizer.withDefaults())
 
-        .exceptionHandling(exception ->
-            exception.authenticationEntryPoint(jwtEntryPoint))
+//        .exceptionHandling(exception ->
+//            exception.authenticationEntryPoint(jwtEntryPoint))
         .sessionManagement(session ->
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth

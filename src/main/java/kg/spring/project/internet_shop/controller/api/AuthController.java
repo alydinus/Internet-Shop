@@ -47,8 +47,8 @@ public class AuthController {
     return new ResponseEntity<>(authService.confirmEmail(token), HttpStatus.OK);
   }
   
-  @PostMapping("/confirm-email")
-  public ResponseEntity<?> confirmEmail(@RequestParam String email) {
-    return new ResponseEntity<>(authService.(email), HttpStatus.OK);
+  @PostMapping("/2fa")
+  public ResponseEntity<?> confirmEmail(@RequestParam String email, @RequestParam String token) {
+    return new ResponseEntity<>(authService.verifyEmail(email, token), HttpStatus.OK);
   }
 }
